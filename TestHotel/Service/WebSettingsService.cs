@@ -23,28 +23,40 @@ namespace BhoomiGlobalAPI.Service
         public async Task<int> Create(WebSettingsDTO model)
         {
 
-            WebSettings obj = _mapper.Map<WebSettings>(model);
-            obj.AboutUs = model.AboutUs;
-            obj.FacebookUrl = model.FacebookUrl;
-            obj.TwitterUrl = model.TwitterUrl;
-            obj.InstagramUrl = model.InstagramUrl;
-            obj.AddressDetail = model.AddressDetail;
-            obj.OurServiceCategoryId = model.OurServiceCategoryId;
-            obj.FooterMenuCategoryId = model.FooterMenuCategoryId;
-            obj.HeaderMenuCategoryId = model.HeaderMenuCategoryId;
-            obj.PlayStoreUrl = model.PlayStoreUrl;
-            obj.AppStoreUrl = model.AppStoreUrl;
-            obj.FaqCategoryId = model.FaqCategoryId;
-            obj.SupportPageId = model.SupportPageId;
-            obj.CustomerSupport = model.CustomerSupport;
-            obj.AboutUsPageId = model.AboutUsPageId;
-            obj.ContactUsPageId = model.ContactUsPageId;
-            obj.ServicePageId = model.ServicePageId;
-            obj.SiteLogoImageUrl = model.SiteLogoImageUrl;
-            obj.SiteFaviconImageUrl = model.SiteFaviconImageUrl;
-            await _webSettingsRepository.Add(obj);
-            await _unitOfWork.Commit();
-            return obj.Id;
+            try
+            {
+                WebSettings obj = _mapper.Map<WebSettings>(model);
+                obj.AboutUs = model.AboutUs;
+                obj.FacebookUrl = model.FacebookUrl;
+                obj.TwitterUrl = model.TwitterUrl;
+                obj.InstagramUrl = model.InstagramUrl;
+                obj.OurServiceCategoryId = model.OurServiceCategoryId;
+                obj.FooterMenuCategoryId = model.FooterMenuCategoryId;
+                obj.HeaderMenuCategoryId = model.HeaderMenuCategoryId;
+                obj.PlayStoreUrl = model.PlayStoreUrl;
+                obj.AppStoreUrl = model.AppStoreUrl;
+                obj.FaqCategoryId = model.FaqCategoryId;
+                obj.SupportPageId = model.SupportPageId;
+                obj.CustomerSupport = model.CustomerSupport;
+                obj.AboutUsPageId = model.AboutUsPageId;
+                obj.ContactUsPageId = model.ContactUsPageId;
+                obj.ServicePageId = model.ServicePageId ;
+                obj.SiteLogoImageUrl = model.SiteLogoImageUrl;
+                obj.SiteFaviconImageUrl = model.SiteFaviconImageUrl;
+                obj.AboutOffice = model.AboutOffice;
+                obj.officeEmail = model.officeEmail;
+                obj.officePhoneNumber = model.officePhoneNumber;
+                obj.officeAdditionalPhoneNumber = model.officeAdditionalPhoneNumber;
+                obj.GoogleMapLocationUrl = model.GoogleMapLocationUrl;
+                obj.LinkedInUrl = model.LinkedInUrl;
+                await _webSettingsRepository.Add(obj);
+                await _unitOfWork.Commit();
+                return obj.Id;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<int> Update(WebSettingsDTO model)
         {
@@ -56,7 +68,6 @@ namespace BhoomiGlobalAPI.Service
                 obj.FacebookUrl = model.FacebookUrl;
                 obj.TwitterUrl = model.TwitterUrl;
                 obj.InstagramUrl = model.InstagramUrl;
-                obj.AddressDetail = model.AddressDetail;
                 obj.OurServiceCategoryId = model.OurServiceCategoryId;
                 obj.FooterMenuCategoryId = model.FooterMenuCategoryId;
                 obj.HeaderMenuCategoryId = model.HeaderMenuCategoryId;
@@ -74,6 +85,12 @@ namespace BhoomiGlobalAPI.Service
                 obj.SiteLogoImageUrl = model.SiteLogoImageUrl;
                 obj.SiteFaviconImageUrl = model.SiteFaviconImageUrl;
                 obj.OurClientSaysCategoryId = model.OurClientSaysCategoryId;
+                obj.AboutOffice = model.AboutOffice;
+                obj.officeEmail = model.officeEmail;
+                obj.officePhoneNumber = model.officePhoneNumber;
+                obj.officeAdditionalPhoneNumber = model.officeAdditionalPhoneNumber;
+                obj.GoogleMapLocationUrl = model.GoogleMapLocationUrl;
+                obj.LinkedInUrl = model.LinkedInUrl;
                 await _unitOfWork.Commit();
             }
             return obj.Id;
@@ -97,12 +114,16 @@ namespace BhoomiGlobalAPI.Service
         public WebSettingsDTO GetSiteLogoImage()
         {
             var wb = _webSettingsRepository.All.FirstOrDefault();
-            var wb_ = new WebSettingsDTO()
+            if(wb != null)
             {
+                var wb_ = new WebSettingsDTO()
+                {
 
-                SiteLogoImageUrl = "UploadsPlayStoreImage/" + wb.SiteLogoImageUrl
-            };
-            return wb_;
+                    SiteLogoImageUrl = "UploadsPlayStoreImage/" + wb.SiteLogoImageUrl
+                };
+                return wb_;
+            }
+            return null;
         }
         public WebSettingsDTO GetSiteFaviconImage()
         {

@@ -7,15 +7,27 @@ namespace BhoomiGlobalAPI.HelperClass
     {
         public enum TargetModule /*TargetModule is for Carousel of Mobile*/
         {
-            Store = 1,
-            Product = 2,
+            //Store = 1,
+            //Product = 2,
             Page = 3,
-            ProductCategory = 4,
-            Brand = 5,
-            OrderDetail = 6,
+            //ProductCategory = 4,
+            //Brand = 5,
+            //OrderDetail = 6,
             Faq = 7,
         }
 
+        public enum GenderEnum
+        {
+            Male = 1,
+            Female = 2,
+            Others = 3
+        }
+        public enum LoginTypeEnum
+        {
+            Web = 1,
+            Partner = 2,
+            Admin = 3,
+        }
 
         public enum MenuItemStatus
         {
@@ -40,8 +52,60 @@ namespace BhoomiGlobalAPI.HelperClass
             GENERAL
         }
 
+        public enum CarouselType
+        {
+            Homepage = 1,/*Top Most View at End User Homepage*/
+            Storehome = 2,
+            Brandhome = 3
+        }
 
+        public enum NewsletterSubscriberStatus
+        {
+            Active = 1,
+            Inactive = 2
+        }
 
+        public enum NewsletterStatus
+        {
+            Draft = 10,
+            Confirmed = 20,
+            SendNow = 30,
+            Cancelled = 40,
+            Sent = 50
+        }
+
+        public enum DatingFilter
+        {
+            anytime = 0,
+            tomorrow = 1,
+            today = 2,
+            yesterday = 3,
+            onOrAfter = 4,
+            on = 5,
+            OnOrBefore = 6,
+            between = 7,
+            nextWeek = 8,
+            thisWeek = 9,
+            lastWeek = 10,
+            nextMonth = 11,
+            thisMonth = 12,
+            lastMonth = 13,
+            nextYear = 14,
+            thisYear = 15,
+            lastYear = 16
+        }
+
+        public enum UserStatus
+        {
+            Registered = 10,
+            EmailVerified = 20,
+        }
+
+        public enum EmailTemplateStatus
+        {
+            Active = 1,
+            Inactive = 0
+        }
 
         public object ExportEnum<T>()
         {

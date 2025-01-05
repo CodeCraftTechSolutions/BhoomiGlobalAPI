@@ -20,11 +20,21 @@ namespace BhoomiGlobalAPI
                 cfg.CreateMap <MenuCategory, MenuCategoryDTO>().ReverseMap();
                 cfg.CreateMap<MenuItem, MenuItemDTO>().ReverseMap();
                 cfg.CreateMap<Page, PageDTO>().ReverseMap();
+                cfg.CreateMap<PageSection, PageSectionInputDTO>().ReverseMap();
                 cfg.CreateMap<PageCategory, PageCategoryDTO>().ReverseMap();
                 cfg.CreateMap<PageSection, PageSectionDTO>().ReverseMap();
                 cfg.CreateMap<PageSectionDetails, PageSectionDetailsDTO>().ReverseMap();
                 cfg.CreateMap<WebSettings, WebSettingsDTO>().ReverseMap();
 
+                cfg.CreateMap<EmailQueueDTO, EmailQueue>().ReverseMap();
+                cfg.CreateMap<EmailLogDTO, EmailLog>().ReverseMap();
+                cfg.CreateMap<EmailTemplateDTO, EmailTemplate>().ReverseMap();
+
+                cfg.CreateMap<NewsletterSubscriberDTO, NewsletterSubscriber>().ReverseMap();
+                cfg.CreateMap<NewsletterDTO, Newsletter>().ReverseMap();
+                cfg.CreateMap<MenuCategoryDTO, MenuCategory>().ReverseMap();
+                cfg.CreateMap<CarouselDTO, Carousel>().ReverseMap();
+                cfg.CreateMap<ContactDTO, Contact>().ReverseMap();
             });
 
 

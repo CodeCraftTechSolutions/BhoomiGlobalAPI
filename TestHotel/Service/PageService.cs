@@ -54,7 +54,7 @@ namespace LogicLync.Service
                 var Pages = _Pages.Select(ll => new PageViewModel
                                 {
                                     Id = ll.Id,
-                                    ImageUrl = "UploadsPageImage"+"//"+ ll.PageImages.Where(x => x.PageId == ll.Id && x.IsPrimary).Select(x => x.ImagePath).First(),
+                                    ImageUrl = "UploadsPageImage"+"//"+ ll.PageImages.Where(x => x.PageId == ll.Id  && x.IsPrimary == true).Select(x => x.ImagePath).First(),
                                     LongDescription = ll.LongDescription,
                                     ShortDescription = ll.ShortDescription,
                                     Title = ll.Title
@@ -97,6 +97,8 @@ namespace LogicLync.Service
             try
             {
                 Page obj = _mapper.Map<Page>(model);
+                obj.PageCategoryId = model.PageCategoryId ?? 0;
+                obj.PageCategory = null;
                 await _PageRepository.Add(obj);
                 await _unitOfWork.Commit();
                 if (obj.Id > 0 && model.SectionsDetailsList != null)
@@ -133,7 +135,7 @@ namespace LogicLync.Service
                 Page.PageUrlCode = model.PageUrlCode;
                 Page.ShortDescription = model.ShortDescription;
                 Page.LongDescription = model.LongDescription;
-                Page.PageCategoryId = model.PageCategoryId;
+                Page.PageCategoryId = model.PageCategoryId ?? 0;
                 Page.PageName = model.PageName;
                 Page.SmallBannerImgUrl = model.SmallBannerImgUrl;
                 Page.BannerImgUrl = model.BannerImgUrl;

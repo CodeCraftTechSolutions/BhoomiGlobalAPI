@@ -160,14 +160,14 @@ namespace BhoomiGlobaAPI.Api.Controllers
                 if (websettings == null) return NotFound();
 
                 if (files == null || !files.Any()) return BadRequest("No file found");
-                foreach (var item in files)
-                {
-                    if (item.Length > photoSettings.MaxBytes) return BadRequest(" Max file size exceed.");
-                    if (!photoSettings.AcceptedFileTypes.Any(x => x.ToLower() == Path.GetExtension(item.FileName.ToLower())))
-                    {
-                        return BadRequest("Invalid file type.");
-                    }
-                }
+                //foreach (var item in files)
+                //{
+                //    if (item.Length > photoSettings.MaxBytes) return BadRequest(" Max file size exceed.");
+                //    if (!photoSettings.AcceptedFileTypes.Any(x => x.ToLower() == Path.GetExtension(item.FileName.ToLower())))
+                //    {
+                //        return BadRequest("Invalid file type.");
+                //    }
+                //}
                 string uploadFolderPath = Path.Combine(host.ContentRootPath, "UploadsPlayStoreImage");
                 string uploadImagePath = Path.Combine(host.ContentRootPath, "UploadsPlayStoreImage");
                 if (!Directory.Exists(uploadFolderPath))

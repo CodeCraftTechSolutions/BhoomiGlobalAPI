@@ -180,6 +180,29 @@ namespace LogicLync.Service
             }
         }
 
+        public async Task<AdditionFooterInformation> GetDefaultData()
+        {
+            var webSetting = await _webSettingRepository.All.FirstOrDefaultAsync();
+            if (webSetting == null) return new AdditionFooterInformation();
+            var AdditionData = new AdditionFooterInformation
+            {
+                AboutOffice = webSetting.AboutOffice ?? string.Empty,
+                FacebookUrl = webSetting.FacebookUrl ?? string.Empty,
+                InstagramUrl = webSetting.InstagramUrl ?? string.Empty,
+                TwitterUrl = webSetting.TwitterUrl ?? string.Empty,
+                LinkedInUrl = webSetting.LinkedInUrl ?? string.Empty,
+                Email = webSetting.officeEmail ?? string.Empty,
+                PhoneNumber = webSetting.officePhoneNumber ?? string.Empty,
+                SiteLogoUrl = "UploadsPlayStoreImage/" + webSetting.SiteLogoImageUrl ?? string.Empty,
+                ContactUsId = webSetting.ContactUsPageId ?? 0,
+                AboutUsId = webSetting.AboutUsPageId ?? 0,
+                TermsOfServiceId = webSetting.WebTCId ?? 0,
+                AdditionalPhoneNumber = webSetting.officeAdditionalPhoneNumber ?? string.Empty,
+                GoogleMapUrl = webSetting.GoogleMapLocationUrl ?? string.Empty,
+            };
+            return AdditionData;
+        }
+
         #region FooterMenu
         public async Task<List<FooterMenuDTO>> FooterMenu()
         {
@@ -190,17 +213,19 @@ namespace LogicLync.Service
                         .Where(x => x.ParentId == webSetting.FooterMenuCategoryId).ToListAsync();
             if (!menu.Any()) new List<FooterMenuDTO>();
             var footermenulist = new List<FooterMenuDTO>
-            { 
+            {
                 //new FooterMenuDTO
                 //{
                 //    AdditionData=new AdditionFooterInformation
-                //    { 
-                //        AboutUs= webSetting.AboutUs??string.Empty,
-                //        Address= webSetting.AddressDetail??string.Empty,
+                //    {
+                //        AboutOffice= webSetting.AboutOffice??string.Empty,
                 //        FacebookUrl =  webSetting.FacebookUrl?? string.Empty,
                 //        InstagramUrl = webSetting.InstagramUrl?? string.Empty,
                 //        TwitterUrl = webSetting.TwitterUrl?? string.Empty,
-                //    } 
+                //        LinkedInUrl = webSetting.LinkedInUrl?? string.Empty,
+                //        Email = webSetting.officeEmail?? string.Empty,
+                //        PhoneNumber = webSetting.officePhoneNumber?? string.Empty,
+                //    }
                 //}
             };
            
@@ -229,16 +254,12 @@ namespace LogicLync.Service
             if (!menu.Any()) new List<HeaderMenuDTO>();
             var headermenulist = new List<HeaderMenuDTO>
             {
-                //new FooterMenuDTO
+                //new HeaderMenuDTO
                 //{
                 //    AdditionData=new AdditionFooterInformation
-                //    { 
-                //        AboutUs= webSetting.AboutUs??string.Empty,
-                //        Address= webSetting.AddressDetail??string.Empty,
-                //        FacebookUrl =  webSetting.FacebookUrl?? string.Empty,
-                //        InstagramUrl = webSetting.InstagramUrl?? string.Empty,
-                //        TwitterUrl = webSetting.TwitterUrl?? string.Empty,
-                //    } 
+                //    {
+                //        SiteLogoUrl= webSetting.SiteLogoImageUrl,
+                //    }
                 //}
             };
 
@@ -271,7 +292,7 @@ namespace LogicLync.Service
                     if (page != null)
                     {
                         child.Name = page.Title;
-                        child.CodeUrl = "/page/" + page.PageUrlCode;
+                        child.CodeUrl =  page.PageUrlCode;
                     }
 
                 }
@@ -295,7 +316,7 @@ namespace LogicLync.Service
                     if (page != null)
                     {
                         child.Name = page.Title;
-                        child.CodeUrl = "/page/" +  page.PageUrlCode;
+                        child.CodeUrl = page.PageUrlCode;
                     }
 
                 }

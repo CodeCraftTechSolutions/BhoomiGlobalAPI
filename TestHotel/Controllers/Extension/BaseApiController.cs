@@ -4,145 +4,157 @@ using System.Security.Claims;
 
 namespace BhoomiGlobalAPI.Api.Controllers
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public abstract class BaseApiController : ControllerBase
-	{
-        
-		/// <summary>
-		/// 
-		/// </summary>
-		protected ClaimsPrincipal CurrentPrincipal
-		{
-			get
-			{
-				return User as ClaimsPrincipal;
-			}
-		}
-
-        public bool IsAdmin 
+    {
+        public BaseApiController()
         {
-            get 
-            {
-                var role = GetRoles();
-                if (string.IsNullOrEmpty(role) == false)
-                {
-                    role = role.ToLower();
-                }
-                if (role == EnumHelper.GetDescription(Enums.Role.SUPERADMINISTRATOR).ToLower()
-                    || role == EnumHelper.GetDescription(Enums.Role.ADMINISTRATOR).ToLower())
-                {
-                    return true;
-                }
-                return false;
-            }
-
         }
 
+        // Safely retrieves the current ClaimsPrincipal.
+        protected ClaimsPrincipal CurrentPrincipal
+        {
+            get
+            {
+                if (User == null || User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    return null; // Or throw an exception depending on your business needs
+                }
+                return User as ClaimsPrincipal;
+            }
+        }
 
+        // Checks if the user is an Admin (Admin or SuperAdmin).
+        public bool IsAdmin
+        {
+            get
+            {
+                var role = GetRoles();
+                if (string.IsNullOrEmpty(role)) return false;
 
+                role = role.ToLower();
+                var adminRole = EnumHelper.GetDescription(Enums.Role.SUPERADMINISTRATOR).ToLower();
+                var adminRoleAlt = EnumHelper.GetDescription(Enums.Role.ADMINISTRATOR).ToLower();
+
+                return role.Equals(adminRole, StringComparison.OrdinalIgnoreCase) || role.Equals(adminRoleAlt, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        // Checks if the user is a Member (General).
         public bool IsMember
         {
             get
             {
                 var role = GetRoles();
-                if (string.IsNullOrEmpty(role) == false)
-                {
-                    role = role.ToLower();
-                }
-                return role == EnumHelper.GetDescription(Enums.Role.GENERAL).ToLower();
+                if (string.IsNullOrEmpty(role)) return false;
+                return role.Equals(EnumHelper.GetDescription(Enums.Role.GENERAL), StringComparison.OrdinalIgnoreCase);
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        // Gets the username from the claims.
         [NonAction]
         protected string GetUserName()
         {
+            if (CurrentPrincipal == null)
+            {
+                return string.Empty; // Fallback if CurrentPrincipal is null
+            }
             return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, Constants.API_CLAIM_USERNAME);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+
+        // Gets the user ID from the claims.
         [NonAction]
         protected string GetUserId()
         {
+            if (CurrentPrincipal == null)
+            {
+                return string.Empty; // Fallback if CurrentPrincipal is null
+            }
             return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, ClaimTypes.NameIdentifier);
         }
 
-
+        // Gets the Partner's User ID (for Partner tokens).
         [NonAction]
         protected string GetPartnerUserId()
         {
+            if (CurrentPrincipal == null)
+            {
+                return string.Empty; // Fallback if CurrentPrincipal is null
+            }
+
             var partnerClaim = CurrentPrincipal.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier && c.Issuer == "PartnerTokenIdentity");
 
-            return partnerClaim?.Value;
+            return partnerClaim?.Value ?? string.Empty; // Return empty if no claim found
         }
 
+        // Gets the Partner's Roles (for Partner tokens).
         [NonAction]
         protected string GetPartnerRoles()
         {
+            if (CurrentPrincipal == null)
+            {
+                return string.Empty; // Fallback if CurrentPrincipal is null
+            }
+
             var partnerClaim = CurrentPrincipal.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.Role && c.Issuer == "PartnerTokenIdentity");
 
-            return partnerClaim?.Value;
+            return partnerClaim?.Value ?? string.Empty; // Return empty if no claim found
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-
-
+        // Gets the roles of the user from the claims.
         [NonAction]
-		protected string GetRoles()
-		{
-			return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, ClaimTypes.Role);
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		[NonAction]
-		protected string GetFirstName()
-		{
-			return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, Constants.FIRSTNAME);
-		}
+        protected string GetRoles()
+        {
+            if (CurrentPrincipal == null)
+            {
+                return string.Empty; // Fallback if CurrentPrincipal is null
+            }
+            return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, ClaimTypes.Role);
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		[NonAction]
-		protected string GetLastName()
-		{
-			return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, Constants.LASTNAME);
-		}
+        // Gets the first name from the claims.
+        [NonAction]
+        protected string GetFirstName()
+        {
+            if (CurrentPrincipal == null)
+            {
+                return string.Empty; // Fallback if CurrentPrincipal is null
+            }
+            return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, Constants.FIRSTNAME);
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		[NonAction]
-		protected string GetEmail()
-		{
-			return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, Constants.EMAIL);
-		}
-        
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		[NonAction]
-		protected string GetPhone()
-		{
-			return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, Constants.PHONE);
-		}
-	}
+        // Gets the last name from the claims.
+        [NonAction]
+        protected string GetLastName()
+        {
+            if (CurrentPrincipal == null)
+            {
+                return string.Empty; // Fallback if CurrentPrincipal is null
+            }
+            return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, Constants.LASTNAME);
+        }
+
+        // Gets the email from the claims.
+        [NonAction]
+        protected string GetEmail()
+        {
+            if (CurrentPrincipal == null)
+            {
+                return string.Empty; // Fallback if CurrentPrincipal is null
+            }
+            return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, Constants.EMAIL);
+        }
+
+        // Gets the phone number from the claims.
+        [NonAction]
+        protected string GetPhone()
+        {
+            if (CurrentPrincipal == null)
+            {
+                return string.Empty; // Fallback if CurrentPrincipal is null
+            }
+            return AuthHelper.GetClaim<string>(CurrentPrincipal.Claims, Constants.PHONE);
+        }
+    }
 }

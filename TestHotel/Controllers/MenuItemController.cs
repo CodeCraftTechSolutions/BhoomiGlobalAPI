@@ -104,31 +104,31 @@ namespace BhoomiGlobaAPI.Api.Controllers
                 if (ModelState.IsValid)
                 {
                     var entityData = _lLpageRepository.GetById(masterlist.EntityId);
-                    if (masterlist.MenuTypeId == (int)TargetModule.Store)
-                    {
-                        masterlist.Url = "store/" + masterlist.EntityId;
-                        if(entityData != null && !string.IsNullOrEmpty(entityData.PageUrlCode)) masterlist.CodeUrl = "store/" + entityData.PageUrlCode;
-                    }
-                    if (masterlist.MenuTypeId == (int)TargetModule.ProductCategory)
-                    {
-                        masterlist.Url = "category/category-details/" + masterlist.EntityId;
-                        if(entityData != null && !string.IsNullOrEmpty(entityData.PageUrlCode)) masterlist.CodeUrl = "category/category-details/" + entityData.PageUrlCode;
-                    }
-                    if (masterlist.MenuTypeId == (int)TargetModule.Product)
-                    {
-                        masterlist.Url = "product/product-details/" + masterlist.EntityId;
-                        if (entityData != null && !string.IsNullOrEmpty(entityData.PageUrlCode)) masterlist.CodeUrl = "product/product-details/" + entityData.PageUrlCode;
-                    }
+                    //if (masterlist.MenuTypeId == (int)TargetModule.Store)
+                    //{
+                    //    masterlist.Url = "store/" + masterlist.EntityId;
+                    //    if(entityData != null && !string.IsNullOrEmpty(entityData.PageUrlCode)) masterlist.CodeUrl = "store/" + entityData.PageUrlCode;
+                    //}
+                    //if (masterlist.MenuTypeId == (int)TargetModule.ProductCategory)
+                    //{
+                    //    masterlist.Url = "category/category-details/" + masterlist.EntityId;
+                    //    if(entityData != null && !string.IsNullOrEmpty(entityData.PageUrlCode)) masterlist.CodeUrl = "category/category-details/" + entityData.PageUrlCode;
+                    //}
+                    //if (masterlist.MenuTypeId == (int)TargetModule.Product)
+                    //{
+                    //    masterlist.Url = "product/product-details/" + masterlist.EntityId;
+                    //    if (entityData != null && !string.IsNullOrEmpty(entityData.PageUrlCode)) masterlist.CodeUrl = "product/product-details/" + entityData.PageUrlCode;
+                    //}
                     if (masterlist.MenuTypeId == (int)TargetModule.Page)
                     {
                         masterlist.Url = "page/" + masterlist.EntityId;
                         if (entityData != null && !string.IsNullOrEmpty(entityData.PageUrlCode)) masterlist.CodeUrl = "page/" + entityData.PageUrlCode;
                     }   
-                    if (masterlist.MenuTypeId == (int)TargetModule.Brand)
-                    {
-                        masterlist.Url = "brand/" + masterlist.EntityId;
-                        if (entityData != null && !string.IsNullOrEmpty(entityData.PageUrlCode)) masterlist.CodeUrl = "brand/" + entityData.PageUrlCode;
-                    }
+                    //if (masterlist.MenuTypeId == (int)TargetModule.Brand)
+                    //{
+                    //    masterlist.Url = "brand/" + masterlist.EntityId;
+                    //    if (entityData != null && !string.IsNullOrEmpty(entityData.PageUrlCode)) masterlist.CodeUrl = "brand/" + entityData.PageUrlCode;
+                    //}
 
                     int result = 0;
                     if (masterlist.Id == 0)
@@ -261,6 +261,22 @@ namespace BhoomiGlobaAPI.Api.Controllers
             try
             {
                var result=await _menuItemService.FooterMenu();
+               return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        } 
+
+        [HttpGet]
+        [Route("GetDefault")]
+        public async Task<IActionResult> GetDefault()
+        {
+            try
+            {
+               var result=await _menuItemService.GetDefaultData();
                return Ok(result);
             }
             catch (Exception ex)

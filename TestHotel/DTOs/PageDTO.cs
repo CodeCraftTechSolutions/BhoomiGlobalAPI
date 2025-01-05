@@ -5,18 +5,18 @@
 
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Name { get; set; }
-        public string ShortDescription { get; set; }
-        public string LongDescription { get; set; }
+        public string? Name { get; set; }
+        public string? ShortDescription { get; set; }
+        public string? LongDescription { get; set; }
         public string? BannerImgUrl { get; set; } 
         public string? SmallBannerImgUrl { get; set; }
-        public int PageCategoryId { get; set; }
-        public string PageName { get; set; }
-        public string PageUrlCode { get; set; }
+        public int? PageCategoryId { get; set; }
+        public string? PageName { get; set; }
+        public string? PageUrlCode { get; set; }
 
-        public string PageCategoryName { get; set; }
-        public virtual PageCategoryDTO PageCategory { get; set; }
-        public virtual ICollection<PageImageDTO> PageImages { get; set; }
+        public string? PageCategoryName { get; set; }
+        public virtual PageCategoryDTO? PageCategory { get; set; }
+        public virtual ICollection<PageImageDTO>? PageImages { get; set; }
         public PageSectionUpsertDTO? SectionsDetailsList { get; set; }
 
     }

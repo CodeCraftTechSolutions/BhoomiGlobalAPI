@@ -156,9 +156,15 @@ namespace BhoomiGlobalAPI.Service
         }
         public async Task Delete(int id)
         {
-            var menuCategory = await _menuCategoryRepository.GetSingle(id);
-            _menuCategoryRepository.Delete(menuCategory);
-            await _unitOfWork.Commit();
+            try
+            {
+                var menuCategory = await _menuCategoryRepository.GetSingle(id);
+                _menuCategoryRepository.Delete(menuCategory);
+                await _unitOfWork.Commit();
+            }catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<bool> ChangeStatus(int id)
         {

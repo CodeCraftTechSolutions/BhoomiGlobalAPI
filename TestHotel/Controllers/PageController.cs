@@ -240,7 +240,6 @@ namespace BhoomiGlobaAPI.Api.Controllers
 
         }
 
-
         [HttpPost]
         [Route("AddLlPage")]
         public async Task<IActionResult> AddLlPage(PageDTO masterlist)
@@ -400,14 +399,14 @@ namespace BhoomiGlobaAPI.Api.Controllers
                 var files = Request.Form.Files;
 
                 if (files == null || !files.Any()) return BadRequest("No file found");
-                foreach (var item in files)
-                {
-                    if (item.Length > photoSettings.MaxBytes) return BadRequest(" Max file size exceed.");
-                    if (!photoSettings.AcceptedFileTypes.Any(x => x.ToLower() == Path.GetExtension(item.FileName.ToLower())))
-                    {
-                        return BadRequest("Invalid file type.");
-                    }
-                }
+                //foreach (var item in files)
+                //{
+                //    //if (item.Length > photoSettings.MaxBytes) return BadRequest(" Max file size exceed.");
+                //    if (!photoSettings.AcceptedFileTypes.Any(x => x.ToLower() == Path.GetExtension(item.FileName.ToLower())))
+                //    {
+                //        return BadRequest("Invalid file type.");
+                //    }
+                //}
                 string uploadFolderPath = Path.Combine(host.ContentRootPath, "UploadsllPageSectionsImage");
                 string uploadImagePath = Path.Combine(host.ContentRootPath, "UploadsllPageSectionsImage");
                 if (!Directory.Exists(uploadFolderPath))

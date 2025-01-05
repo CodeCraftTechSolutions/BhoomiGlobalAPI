@@ -12,6 +12,13 @@
         public string Address { get; set; }
         public String? PhoneNumber { get; set; }
         public DateTime? RegisteredDate { get; set; }
+        public string? ImagePath { get; set; }
+        public int? Status { get; set; }
+        public bool? IsUserLocked { get; set; }
+        public string? Title { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+
+        public ICollection<UserRole> UserRole { get; set; }
     }
 
 

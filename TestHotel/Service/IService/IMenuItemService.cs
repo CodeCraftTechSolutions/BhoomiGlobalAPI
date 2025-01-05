@@ -21,6 +21,7 @@ namespace BhoomiGlobalAPI.Service.Infrastructure
         Task<List<FooterMenuDTO>> FooterMenu();
         Task<List<HeaderMenuDTO>> HeaderMenuNew();
         Task<WebSettings> HeaderMenu();
+        Task<AdditionFooterInformation> GetDefaultData();
         void SaveChanges();
     }
 }
